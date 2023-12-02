@@ -11,28 +11,34 @@ import java.util.Scanner;
  *
  * @author jose-
  */
+// Definicion de la clase Juego
 public class Juego {
 
+    // Atributos privadps que representan la linea de juego y los jugadores
     private ArrayList<Ficha> lineaJuego;
     private ArrayList<Jugador> jugadores;
 
+    // Constructor de la clase Juego que inicializa las listas de la linea de juego y jugadores
     public Juego() {
         this.lineaJuego = new ArrayList<>();
         this.jugadores = new ArrayList<>();
     }
 
+    // Metodo para agregar un jugador al juego con un nombre y una mano de fichas generada aleatoriamente
     public void agregarJugador(String nombre) {
         Jugador p = new Jugador(nombre, Utilitaria.crearManoJugador());
         jugadores.add(p);
 
     }
 
+    // Metodo para obtener el valor del lado1 de la primera ficha en la linea de juego
     public int obtenerValorInicioLinea() {
         Ficha ficha = lineaJuego.get(0);
         int a = ficha.getLado1();
         return a;
     }
 
+    // Método para obtener el valor del lado2 de la última ficha en la linea de juego
     public int obtenerValorFinalLinea() {
         int i = lineaJuego.size() - 1;
         Ficha ficha2 = lineaJuego.get(i);
@@ -127,10 +133,12 @@ public class Juego {
         }
     }
 
+    // Metodo para obtener la lista de fichas en la linea de juego
     public ArrayList<Ficha> getLineaJuego() {
         return lineaJuego;
     }
 
+    // Método para obtener la lista de jugadores en el juego
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
