@@ -47,152 +47,132 @@ public class Juego {
     }
 
     public void mostrarLinea() {
-        for (Ficha ficha : lineaJuego) {
-            System.out.print(ficha + " - ");
+       if(this.lineaJuego.isEmpty()){
+            System.out.println("");
         }
-        System.out.println();
-
+        for(int i=0; i<this.lineaJuego.size();i++){
+            Ficha f = this.lineaJuego.get(i);
+            if(i!=this.lineaJuego.size()-1){
+                System.out.print(f.toString()+" - ");
+            }
+            else
+                System.out.println(f.toString());
+        }
     }
-
-    public boolean agregarFichaLinea(Ficha f, Jugador j) {
-       if (!(f instanceof FichaComodin)&& f!=null) {
-            if (lineaJuego.isEmpty() || (f.getLado2() == obtenerValorInicioLinea()) || f.getLado1() == obtenerValorFinalLinea()) {
-                if (!lineaJuego.isEmpty()) {
-                    if (f.getLado2() == obtenerValorInicioLinea()) {
-                        System.out.println("Movimiento Válido");
-                        lineaJuego.add(0,f);
-                        j.removerFicha(f);
-                        return true;
-                    } else if (f.getLado1() == obtenerValorFinalLinea()) {
-                        System.out.println("Movimiento Válido");
-                        lineaJuego.add(f);
-                        j.removerFicha(f);
-                        return true;
-                    }else { 
-                        System.out.println("Movimiento no válido. Intenta de nuevo.");
-                        return false;
-                    }
-                }else {
-                j.removerFicha(f);
-                return lineaJuego.add(f);
-                
-                
+    
+    public boolean agregarFichaLinea(Ficha ficha, Jugador j){
+        Scanner scanner = new Scanner(System.in);
+        //caso ficha es comodin
+        if (ficha instanceof FichaComodin){
+            //si no hay fichas en linea de juego
+            if(lineaJuego.isEmpty()){
+                lineaJuego.add(ficha);
+                System.out.print("Digite valores para lado1 ");
+                int lado1 = scanner.nextInt();
+                ((FichaComodin)ficha).setLado1(lado1);
+                System.out.print("Digite valores para lado2 ");
+                int lado2 = scanner.nextInt();
+                ((FichaComodin)ficha).setLado2(lado2);
+            }
+            //si hay fichas en linea de juego
+            else{
+                //a
+                System.out.print("Digite donde quiere agregar la ficha en la linea 'Inicio' o 'Fin': ");
+                String posicion = scanner.next();
+                //b
+                if(posicion.equals("Inicio")){
+                    System.out.print("Digite valores para lado1 ");
+                    int lado1 = scanner.nextInt();
+                    ((FichaComodin)ficha).setLado1(lado1);
+                    lineaJuego.add(0,ficha);
+                }
+                //c
+                else if(posicion.equals("Fin")){
+                    System.out.print("Digite valores para lado2 ");
+                    int lado2 = scanner.nextInt();
+                    ((FichaComodin)ficha).setLado2(lado2);
+                    lineaJuego.add(ficha);
                 }
             }
-        } else if (f!=null){
-            Scanner scanner = new Scanner(System.in);
-            if (!lineaJuego.isEmpty()) {
-                System.out.print("Ingrese la posición (Inicio/Fin): ");
-                String posicion = scanner.nextLine();
-                if ("Inicio".equalsIgnoreCase(posicion)) {
-                    lineaJuego.add(0, f);
-                    System.out.print("Ingrese el valor del lado1: ");
-                    FichaComodin f1= (FichaComodin)f;
-                    f1.setLado1(scanner.nextInt());
-                    j.removerFicha(f);
-                    return true;
-                    
-                } else if ("Fin".equalsIgnoreCase(posicion)) {
-                    lineaJuego.add(f);
-                    System.out.print("Ingrese el valor del lado2: ");
-                    FichaComodin f2= (FichaComodin)f;
-                    f2.setLado2(scanner.nextInt());
-                    j.removerFicha(f);
-                    return true;
-                }
-            } else {
-                lineaJuego.add(f);
-                FichaComodin f1= (FichaComodin)f;
-                System.out.print("Ingrese el valor del lado1: ");
-                f1.setLado1(scanner.nextInt());
-                FichaComodin f2= (FichaComodin)f;
-                System.out.print("Ingrese el valor del lado2: ");
-                f2.setLado2(scanner.nextInt());
-                j.removerFicha(f);
+            j.removerFicha(ficha);
+            return true;
+        }
+        //caso ficha no es comodin
+        else if(ficha instanceof Ficha){
+            //si no hay fichas en linea de juego
+            if(lineaJuego.isEmpty()){
+                lineaJuego.add(ficha);
+                j.removerFicha(ficha);
                 return true;
             }
-            
+            //si hay fichas en linea de juego
+            else{
+                if(ficha.getLado2()== obtenerValorInicioLinea()){
+                    lineaJuego.add(0,ficha);
+                    j.removerFicha(ficha);
+                    return true;
+                }
+                else if(ficha.getLado1() == obtenerValorFinLinea()){
+                    lineaJuego.add(ficha);
+                    j.removerFicha(ficha);
+                    return true;
+                }
+                else
+                    return false;
+            }
         }
-        
-        System.out.println("Ficha tenia"+" "+f+" "+"No puedo jugar esa ficha, inténtalo de nuevo");
         return false;
-        
     }
-     private void agregarFichaLineaMaquina(Ficha ficha, Jugador jugador, boolean esInicio) {
-    if (esInicio) {
-        lineaJuego.add(0, ficha);
-        System.out.println(jugador.getNombre() + " elige automáticamente Inicio.");
-        FichaComodin ficha1= (FichaComodin)ficha;
-        ficha1.setLado1((int) (Math.random() * 6) + 1); // Número aleatorio del 1 al 6
-    } else {
-        lineaJuego.add(ficha);
-        System.out.println(jugador.getNombre() + " elige automáticamente Fin.");
-        FichaComodin ficha1= (FichaComodin)ficha;
-        ficha1.setLado2((int) (Math.random() * 6) + 1); // Número aleatorio del 1 al 6
-    }
-            
-            
-    jugador.removerFicha(ficha);
 
-}
-   public void turnoMaquina() {
-    Jugador maquina = jugadores.get(1); // Suponiendo que la máquina es el segundo jugador
-    Ficha ficha = null;
-
-    // Busca una ficha que pueda ser jugada
-    for (Ficha manoFicha : maquina.getMano()) {
-        if (lineaJuego.isEmpty() || manoFicha.getLado2() == obtenerValorInicioLinea() ||
-            manoFicha.getLado1() == obtenerValorFinalLinea()) {
-            ficha = manoFicha;
-            break;
+    public boolean jugarMaquina(Jugador jugador){
+        boolean validar=false;
+        Random random = new Random();
+        for(int i=0 ; i<jugador.getMano().size(); i++ ){
+            Ficha ficha = jugador.getMano().get(i);
+            if(!(ficha instanceof FichaComodin)){
+                validar = agregarFichaLinea(ficha,jugador);
+                if (validar==true){
+                    System.out.println("Índice de ficha para jugar (0 es el primero): "+i);
+                    break;
+                } 
+            }else if(ficha instanceof FichaComodin){
+                int pos = random.nextInt(1)+1;
+                System.out.println("Índice de ficha para jugar (0 es el primero): "+i);
+                validar = true;
+                if(pos == 1){//se agrega al inicio
+                    int lado1 = random.nextInt(6) + 1;
+                    System.out.println("Digite valores para lado1 " +lado1);
+                    ((FichaComodin)ficha).setLado1(lado1);
+                    lineaJuego.add(0,ficha);
+                }else{//se agrega al final  
+                    int lado2 = random.nextInt(6) + 1;
+                    System.out.println("Digite valores para lado1 " +lado2);
+                    ((FichaComodin)ficha).setLado2(lado2);
+                    lineaJuego.add(ficha);
+                }  
+                jugador.removerFicha(ficha);
+            }     
         }
+        return validar;
     }
-
-    // Si no encuentra una ficha convencional, busca una ficha comodín
-    if (ficha == null) {
-        for (Ficha manoFicha : maquina.getMano()) {
-            if (manoFicha instanceof FichaComodin) {
-                ficha = manoFicha;
+    
+    public boolean validarMovimientos(Jugador jugador){
+        boolean validar=false;
+        for(Ficha ficha : jugador.getMano()){
+            //valida si se puede jugar alguna ficha
+            if (lineaJuego.isEmpty() || 
+                ficha.getLado2()== obtenerValorInicioLinea() || 
+                ficha.getLado1() == obtenerValorFinLinea() ||
+                ficha instanceof FichaComodin){
+                validar = true;
                 break;
-            }
+            } 
         }
-    }
-
-    if (ficha != null) {
-        System.out.println(maquina.getNombre() + ": Mano -> " + maquina.getNombre());
-        maquina.imprimirMano();
-        System.out.println("Línea de Juego -> ");
-        mostrarLinea();
-
-        if (ficha instanceof FichaComodin) {
-            // Si es una ficha comodín, la máquina elige automáticamente Inicio o Fin
-            boolean esInicio = Math.random() < 0.5; // 50% de probabilidad de elegir Inicio o Fin
-
-            if (esInicio) {
-                agregarFichaLineaMaquina(ficha, maquina, true);
-            } else {
-                agregarFichaLineaMaquina(ficha, maquina, false);
-            }
-        } else {
-            // Si es una ficha convencional, se agrega automáticamente
-            System.out.println(maquina.getNombre() + " juega ficha: " + ficha);
-            agregarFichaLinea(ficha, maquina);
-        }
-    } else {
-        System.out.println(maquina.getNombre() + " ha pasado su turno.");
-    }
-}
-
-
-    // Metodo para obtener la lista de fichas en la linea de juego
-    public ArrayList<Ficha> getLineaJuego() {
-        return lineaJuego;
-    }
-
-    // Método para obtener la lista de jugadores en el juego
-    public ArrayList<Jugador> getJugadores() {
-        return jugadores;
+        return validar;
     }
     
-    
+    public void removerJugador(Jugador jugador){
+        jugadores.remove(jugador);
+    }
+
 }
