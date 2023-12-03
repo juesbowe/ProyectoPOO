@@ -43,10 +43,14 @@ public class Jugador {
     
      // Método para imprimir la mano de fichas del jugador
     public void imprimirMano(){
-          for (Ficha ficha : mano) {
-            System.out.print(ficha + " - ");
+          for(int i=0; i<mano.size();i++){
+            Ficha f = mano.get(i);
+            if(i!=mano.size()-1){
+                System.out.print(f.toString()+" - ");
+            }
+            else
+                System.out.println(f.toString());
         }
-        System.out.println();
     }
         
     // Método para remover una ficha específica de la mano
