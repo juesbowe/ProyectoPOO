@@ -43,6 +43,11 @@ public class ProyectoPOO1 {
                         while(validar==false){
                             System.out.print("Índice de ficha para jugar (0 es el primero): ");
                             int pos = scanner.nextInt();
+                             while (pos < 0 || pos >= jugador.getMano().size()){
+                                   System.out.print("Índice no válido. Intenta de nuevo");
+                                   System.out.print(" Índice de ficha para jugar (0 es el primero): ");
+                                   pos= scanner.nextInt();
+                              }
                             Ficha ficha = jugador.getFicha(pos);
                             validar = juego.agregarFichaLinea(ficha, jugador);
                             if (validar == true){
