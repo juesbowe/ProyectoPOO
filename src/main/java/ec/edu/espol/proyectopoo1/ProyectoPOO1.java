@@ -13,66 +13,73 @@ import java.util.Scanner;
 public class ProyectoPOO1 {
 
      public static void main(String[] args) {
-            Juego juego = new Juego();
-
+          Juego juego = new Juego();
+          Scanner scanner = new Scanner(System.in);
+        
         juego.agregarJugador("Jugador 0");
-        juego.agregarJugador("Máquina");
-
-        Scanner scanner = new Scanner(System.in);
-
-        while (true) {
-            for (int i = 0; i < juego.getJugadores().size(); i++) {
-                // Turno del jugador o de la máquina
-                if (i == 1) {
-                    juego.turnoMaquina();
-                } else {
-                    Jugador jugador = juego.getJugadores().get(i);
-                    System.out.println(jugador.getNombre() + ": Mano -> " + jugador.getNombre());
-                    jugador.imprimirMano();
-
-                    System.out.println("Línea de Juego -> ");
-                    juego.mostrarLinea();
-
-                    int indice;
-                    do {
-                        System.out.print("Índice de ficha para jugar (0 es pasar turno): ");
-                        indice = scanner.nextInt();
-                        if (indice == 0) {
-                            System.out.println(jugador.getNombre() + " ha pasado su turno.");
-                            break;
-                        }
-                        if (indice < 0 || indice-1 > jugador.getMano().size()) {
-                            System.out.println("Índice no válido. Intenta de nuevo.");
-                        }
-                    } while (indice < 0 || indice-1 > jugador.getMano().size());
-
-                    if (indice != 0) {
-                        Ficha ficha = jugador.getFicha(indice-1);
-                        boolean movimientoValido = juego.agregarFichaLinea(ficha, jugador);
-
-                        while (!movimientoValido) {
-                            do {
-                                System.out.print("Índice de ficha para jugar (0 es pasar turno): ");
-                                indice = scanner.nextInt();
-                                if (indice == 0) {
-                                    System.out.println(jugador.getNombre() + " ha pasado su turno.");
-                                    break;
-                                }
-                                if (indice-1 < 0 || indice >= jugador.getMano().size()) {
-                                    System.out.println("Índice no válido. Intenta de nuevo.");
-                                }
-                            } while (indice < 0 || indice-1 >= jugador.getMano().size());
-
-                            if (indice != 0) {
-                                ficha = jugador.getFicha(indice-1);
-                                movimientoValido = juego.agregarFichaLinea(ficha, jugador);
+        juego.agregarJugador("Maquina");
+ 
+        
+        boolean jugando = true;
+        while(jugando == true){
+            ArrayList<Jugador> jugadoresEliminados = new ArrayList<>();
+            
+            for (Jugador jugador : juego.getJugadores()) {
+                
+                System.out.print(jugador.getNombre() + ": Mano -> ");jugador.imprimirMano();
+                System.out.print("Línea de Juego -> ");juego.mostrarLinea();
+                
+                boolean validar = false;
+                
+                if (jugador.getNombre().equals("Maquina")){
+                    validar = juego.jugarMaquina(jugador);  
+                    if(validar==true){
+                        System.out.println("Movimiento valido.");
+                    }
+                }
+                else{
+                    boolean validarMovimientos = juego.validarMovimientos(jugador);
+                    if(validarMovimientos == true){
+                        while(validar==false){
+                            System.out.print("Índice de ficha para jugar (0 es el primero): ");
+                            int pos = scanner.nextInt();
+                            Ficha ficha = jugador.getFicha(pos);
+                            validar = juego.agregarFichaLinea(ficha, jugador);
+                            if (validar == true){
+                                System.out.println("Movimiento valido."); 
+                            }else if(validar == false){
+                                System.out.println("Ficha tenía "+ ficha +" No puedo jugar esa ficha, inténtalo de nuevo");
                             }
                         }
                     }
                 }
+                
+                if (validar == true){
+                    System.out.print("Nueva Línea de Juego -> ");juego.mostrarLinea();System.out.println("");
+                } else if(validar == false && jugador.getMano().isEmpty()) {
+                    jugando = false;
+                    System.out.println("EL JUGADOR: "+jugador+" HA GANADO!!");
+                } else if(validar == false){
+                    jugadoresEliminados.add(jugador);
+                    System.out.println("El JUGADOR: "+jugador.getNombre()+" NO TIENE FICHAS JUGABLES, POR LO TANTO HA SIDO ELIMINADO");
+                    System.out.println("");
+                }
+                if (juego.getJugadores().size()-jugadoresEliminados.size() == 1){
+                    break;
+                }
+
             }
+            for(Jugador jugador : jugadoresEliminados ){
+                juego.getJugadores().remove(jugador);
+            }
+            if(juego.getJugadores().size()==1){
+                System.out.println("EL GANADOR ES EL JUGADOR: "+juego.getJugadores().get(0).getNombre());
+                jugando =false;
+            } 
+            
         }
     }
+}
 }
 
 
