@@ -12,7 +12,7 @@ package ec.edu.espol.proyectopoo1;
 public class FichaComodin extends Ficha{
     
     // Constructor de la clase FichaComodin que inicializa los lados con valores de (-1,-1)
-    public FichaComodin(int lado1, int lado2) {
+    public FichaComodin() {
         super(-1, -1);
     }
 
