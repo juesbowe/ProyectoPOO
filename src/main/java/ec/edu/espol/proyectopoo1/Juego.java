@@ -75,14 +75,14 @@ public class Juego {
                 System.out.print("Digite donde quiere agregar la ficha en la linea 'Inicio' o 'Fin': ");
                 String posicion = scanner.next();
                 //b
-                if(posicion.equals("Inicio")){
+                if(posicion.equalsIgnoreCase("Inicio")){
                     System.out.print("Digite valores para lado1 ");
                     int lado1 = scanner.nextInt();
                     ((FichaComodin)ficha).setLado1(lado1);
                     lineaJuego.add(0,ficha);
                 }
                 //c
-                else if(posicion.equals("Fin")){
+                else if(posicion.equalsIgnoreCase("Fin")){
                     System.out.print("Digite valores para lado2 ");
                     int lado2 = scanner.nextInt();
                     ((FichaComodin)ficha).setLado2(lado2);
