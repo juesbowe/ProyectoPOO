@@ -183,13 +183,6 @@ public class Juego {
     }
 }
 
-    public ArrayList<Ficha> getLineaJuego() {
-        return lineaJuego;
-    }
-
-    public ArrayList<Jugador> getJugadores() {
-        return jugadores;
-    }
 
     // Metodo para obtener la lista de fichas en la linea de juego
     public ArrayList<Ficha> getLineaJuego() {
