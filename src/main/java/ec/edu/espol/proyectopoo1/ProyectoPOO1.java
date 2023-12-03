@@ -31,7 +31,7 @@ public class ProyectoPOO1 {
                 
                 boolean validar = false;
                 
-                if (jugador.getNombre().equals("Maquina")){
+                if (jugador.getNombre().equalsIgnoreCase("Maquina")){
                     validar = juego.jugarMaquina(jugador);  
                     if(validar==true){
                         System.out.println("Movimiento valido.");
