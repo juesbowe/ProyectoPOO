@@ -17,17 +17,15 @@ public class Utilitaria {
     public static ArrayList<Ficha> crearManoJugador() {
         ArrayList<Ficha> mano = new ArrayList<>();
         Random random = new Random();
-
         // Bucle para crear 5 fichas con valores aleatorios entre 1 y 6 y agregarlas a la mano
         for (int i = 0; i < 5; i++) {
-            mano.add(new Ficha(random.nextInt(6) + 1, random.nextInt(6) + 1));
+            int lado1 = random.nextInt(6)+1;
+            int lado2 = random.nextInt(6)+1;
+            Ficha ficha = new Ficha(lado1,lado2);
+            mano.add(ficha);
         }
-        // Agrega una ficha comodín a la mano con valores (-1, -1)
-        mano.add(new FichaComodin(-1,-1));
-
-         // Devuelve la mano de jugador creada
+        Ficha fichaComodin = new FichaComodin();
+        mano.add(fichaComodin);
         return mano;
     }
-    
-    
 }
