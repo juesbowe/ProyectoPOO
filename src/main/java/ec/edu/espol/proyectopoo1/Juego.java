@@ -33,19 +33,14 @@ public class Juego {
 
     // Metodo para obtener el valor del lado1 de la primera ficha en la linea de juego
     public int obtenerValorInicioLinea() {
-        Ficha ficha = lineaJuego.get(0);
-        int a = ficha.getLado1();
-        return a;
+        return lineaJuego.get(0).getLado1();
     }
 
     // Método para obtener el valor del lado2 de la última ficha en la linea de juego
     public int obtenerValorFinalLinea() {
-        int i = lineaJuego.size() - 1;
-        Ficha ficha2 = lineaJuego.get(i);
-        int valorFin = ficha2.getLado2();
-        return valorFin;
+        return lineaJuego.get(lineaJuego.size()-1).getLado2();
     }
-
+    
     public void mostrarLinea() {
        if(this.lineaJuego.isEmpty()){
             System.out.println("");
