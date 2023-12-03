@@ -62,10 +62,10 @@ public class Juego {
             //si no hay fichas en linea de juego
             if(lineaJuego.isEmpty()){
                 lineaJuego.add(ficha);
-                System.out.print("Digite valores para lado1 ");
+                System.out.print("Digite valores para lado1: ");
                 int lado1 = scanner.nextInt();
                 ((FichaComodin)ficha).setLado1(lado1);
-                System.out.print("Digite valores para lado2 ");
+                System.out.print("Digite valores para lado2: ");
                 int lado2 = scanner.nextInt();
                 ((FichaComodin)ficha).setLado2(lado2);
             }
@@ -76,14 +76,14 @@ public class Juego {
                 String posicion = scanner.next();
                 //b
                 if(posicion.equalsIgnoreCase("Inicio")){
-                    System.out.print("Digite valores para lado1 ");
+                    System.out.print("Digite valores para lado1: ");
                     int lado1 = scanner.nextInt();
                     ((FichaComodin)ficha).setLado1(lado1);
                     lineaJuego.add(0,ficha);
                 }
                 //c
                 else if(posicion.equalsIgnoreCase("Fin")){
-                    System.out.print("Digite valores para lado2 ");
+                    System.out.print("Digite valores para lado2: ");
                     int lado2 = scanner.nextInt();
                     ((FichaComodin)ficha).setLado2(lado2);
                     lineaJuego.add(ficha);
@@ -136,12 +136,12 @@ public class Juego {
                 validar = true;
                 if(pos == 1){//se agrega al inicio
                     int lado1 = random.nextInt(6) + 1;
-                    System.out.println("Digite valores para lado1 " +lado1);
+                    System.out.println("Digite valores para lado1: " +lado1);
                     ((FichaComodin)ficha).setLado1(lado1);
                     lineaJuego.add(0,ficha);
                 }else{//se agrega al final  
                     int lado2 = random.nextInt(6) + 1;
-                    System.out.println("Digite valores para lado1 " +lado2);
+                    System.out.println("Digite valores para lado2: " +lado2);
                     ((FichaComodin)ficha).setLado2(lado2);
                     lineaJuego.add(ficha);
                 }  
